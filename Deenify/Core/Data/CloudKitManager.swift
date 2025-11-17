@@ -13,26 +13,46 @@ import Combine
 class CloudKitManager: ObservableObject {
     static let shared = CloudKitManager()
 
-    private let container: CKContainer
-    private let publicDatabase: CKDatabase
-    private let privateDatabase: CKDatabase
+    private var container: CKContainer?
+    private var publicDatabase: CKDatabase?
+    private var privateDatabase: CKDatabase?
 
     @Published var accountStatus: CKAccountStatus = .couldNotDetermine
     @Published var isAuthenticated = false
 
+    // Flag to check if CloudKit is available
+    private var cloudKitAvailable = false
+
     private init() {
+        // In DEBUG mode, skip CloudKit if entitlement not available
+        // This allows running without Apple Developer account
+        #if DEBUG
+        print("🔧 DEBUG MODE: Skipping CloudKit initialization")
+        print("📱 Running in local-only mode - all data saved to UserDefaults")
+        cloudKitAvailable = false
+        container = nil
+        publicDatabase = nil
+        privateDatabase = nil
+        #else
+        // Production: CloudKit required
         container = CKContainer(identifier: "iCloud.com.deenify.app")
-        publicDatabase = container.publicCloudDatabase
-        privateDatabase = container.privateCloudDatabase
+        publicDatabase = container?.publicCloudDatabase
+        privateDatabase = container?.privateCloudDatabase
+        cloudKitAvailable = true
 
         Task {
             await checkAccountStatus()
         }
+        #endif
     }
 
     // MARK: - Authentication
 
     func checkAccountStatus() async -> Bool {
+        guard cloudKitAvailable, let container = container else {
+            return false
+        }
+
         do {
             accountStatus = try await container.accountStatus()
             isAuthenticated = accountStatus == .available
@@ -46,6 +66,10 @@ class CloudKitManager: ObservableObject {
     // MARK: - User Profile
 
     func fetchUserProfile() async -> User? {
+        guard cloudKitAvailable, let container = container, let privateDatabase = privateDatabase else {
+            return nil
+        }
+
         do {
             let recordID = try await container.userRecordID()
             let record = try await privateDatabase.record(for: recordID)
@@ -98,6 +122,10 @@ class CloudKitManager: ObservableObject {
     // MARK: - Wisdom Cards
 
     func fetchWisdom(forDay day: Int) async -> WisdomCard? {
+        guard cloudKitAvailable, let publicDatabase = publicDatabase else {
+            return nil
+        }
+
         let predicate = NSPredicate(format: "dayInCycle == %d", day)
         let query = CKQuery(recordType: "WisdomCard", predicate: predicate)
         query.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
@@ -257,6 +285,10 @@ class CloudKitManager: ObservableObject {
         hasanat: Int,
         streak: Streak
     ) async {
+        guard cloudKitAvailable, let container = container, let privateDatabase = privateDatabase else {
+            return
+        }
+
         do {
             let recordID = try await container.userRecordID()
             let record = try await privateDatabase.record(for: recordID)
