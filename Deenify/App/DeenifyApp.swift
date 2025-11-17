@@ -44,10 +44,12 @@ struct DeenifyApp: App {
         // Custom navigation bar appearance
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor(AppColor.background)
+
+        // Use direct UIColor hex values to avoid conversion issues
+        appearance.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 247.0/255.0, alpha: 1.0) // Cream
         appearance.titleTextAttributes = [
             .font: UIFont.systemFont(ofSize: 18, weight: .semibold),
-            .foregroundColor: UIColor(AppColor.text)
+            .foregroundColor: UIColor(red: 31.0/255.0, green: 41.0/255.0, blue: 55.0/255.0, alpha: 1.0) // Charcoal
         ]
 
         UINavigationBar.appearance().standardAppearance = appearance
