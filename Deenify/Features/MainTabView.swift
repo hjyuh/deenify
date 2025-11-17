@@ -26,7 +26,7 @@ struct MainTabView: View {
                 .tag(1)
 
             // Progress Tab
-            ProgressView()
+            UserProgressView()
                 .tabItem {
                     Label("Progress", systemImage: "chart.line.uptrend.xyaxis")
                 }
@@ -169,7 +169,7 @@ struct ModuleRow: View {
 
 // MARK: - Progress View
 
-struct ProgressView: View {
+struct UserProgressView: View {
     @EnvironmentObject var streakManager: StreakManager
     @EnvironmentObject var userProgress: UserProgress
 

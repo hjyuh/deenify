@@ -336,7 +336,15 @@ class UserProgress: ObservableObject {
     }
 
     private func syncToCloudKit() async {
-        // Sync progress to CloudKit for backup
+        // Sync progress to CloudKit for backup (optional - works offline without it)
+        #if DEBUG
+        // Skip CloudKit sync in development if capability not enabled
+        guard cloudKitManager.isAuthenticated else {
+            print("⚠️ CloudKit not available - running in local-only mode")
+            return
+        }
+        #endif
+
         await cloudKitManager.syncUserProgress(
             completedLessons: completedLessons,
             hasanat: currentHasanat,
