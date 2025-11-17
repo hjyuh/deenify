@@ -15,6 +15,7 @@ struct DeenifyApp: App {
     @StateObject private var appState = AppState()
     @StateObject private var streakManager = StreakManager()
     @StateObject private var notificationManager = NotificationManager.shared
+    @StateObject private var userProgress = UserProgress.shared
 
     init() {
         setupAppearance()
@@ -26,6 +27,7 @@ struct DeenifyApp: App {
                 .environmentObject(appState)
                 .environmentObject(streakManager)
                 .environmentObject(notificationManager)
+                .environmentObject(userProgress)
                 .onAppear {
                     setupNotifications()
                     checkStreaks()
