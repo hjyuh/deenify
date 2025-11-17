@@ -8,12 +8,13 @@
 
 import SwiftUI
 import UserNotifications
+import Combine
 
 @main
 struct DeenifyApp: App {
     @StateObject private var appState = AppState()
     @StateObject private var streakManager = StreakManager()
-    @StateObject private var notificationManager = NotificationManager()
+    @StateObject private var notificationManager = NotificationManager.shared
 
     init() {
         setupAppearance()

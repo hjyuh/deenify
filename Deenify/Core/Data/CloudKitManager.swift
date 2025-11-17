@@ -7,6 +7,7 @@
 
 import Foundation
 import CloudKit
+import Combine
 
 @MainActor
 class CloudKitManager: ObservableObject {

@@ -4,6 +4,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct MainTabView: View {
     @State private var selectedTab = 0
