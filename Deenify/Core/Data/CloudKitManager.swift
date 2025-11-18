@@ -9,7 +9,7 @@ import Foundation
 import CloudKit
 import Combine
 
-@MainActor
+// Remove @MainActor to avoid initialization issues with singleton
 class CloudKitManager: ObservableObject {
     static let shared = CloudKitManager()
 
@@ -24,24 +24,24 @@ class CloudKitManager: ObservableObject {
     private var cloudKitAvailable = false
 
     private init() {
-        // In DEBUG mode, skip CloudKit if entitlement not available
+        // In DEBUG mode, skip CloudKit completely
         // This allows running without Apple Developer account
         #if DEBUG
-        print("🔧 DEBUG MODE: Skipping CloudKit initialization")
-        print("📱 Running in local-only mode - all data saved to UserDefaults")
-        cloudKitAvailable = false
-        container = nil
-        publicDatabase = nil
-        privateDatabase = nil
+        print("🔧 DEBUG MODE: CloudKit disabled")
+        print("📱 All data stored locally in UserDefaults")
+        self.cloudKitAvailable = false
+        self.container = nil
+        self.publicDatabase = nil
+        self.privateDatabase = nil
         #else
         // Production: CloudKit required
-        container = CKContainer(identifier: "iCloud.com.deenify.app")
-        publicDatabase = container?.publicCloudDatabase
-        privateDatabase = container?.privateCloudDatabase
-        cloudKitAvailable = true
+        self.container = CKContainer(identifier: "iCloud.com.deenify.app")
+        self.publicDatabase = self.container?.publicCloudDatabase
+        self.privateDatabase = self.container?.privateCloudDatabase
+        self.cloudKitAvailable = true
 
-        Task {
-            await checkAccountStatus()
+        Task { @MainActor in
+            await self.checkAccountStatus()
         }
         #endif
     }
@@ -340,7 +340,6 @@ class CloudKitManager: ObservableObject {
 
 // MARK: - Wisdom Repository
 
-@MainActor
 class WisdomRepository: ObservableObject {
     static let shared = WisdomRepository()
 
@@ -388,7 +387,6 @@ class WisdomRepository: ObservableObject {
 
 // MARK: - Analytics Manager
 
-@MainActor
 class AnalyticsManager {
     static let shared = AnalyticsManager()
 
