@@ -370,6 +370,10 @@ class WisdomRepository: ObservableObject {
     }
 
     func fetchWisdom(forDay day: Int) async -> WisdomCard? {
+        #if DEBUG
+        // In DEBUG mode, use mock data
+        return MockData.wisdomCard(forDay: day)
+        #else
         // Try to fetch from CloudKit
         if let wisdom = await cloudKit.fetchWisdom(forDay: day) {
             return wisdom
@@ -377,6 +381,7 @@ class WisdomRepository: ObservableObject {
 
         // Fallback to cached data
         return allWisdom.first { $0.dayInCycle == day }
+        #endif
     }
 
     func fetchAllWisdom() async {
