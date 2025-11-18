@@ -90,6 +90,10 @@ class CloudKitManager: ObservableObject {
     }
 
     func createUserProfile(name: String, email: String?) async -> User? {
+        guard cloudKitAvailable, let container = container, let privateDatabase = privateDatabase else {
+            return nil
+        }
+
         do {
             let recordID = try await container.userRecordID()
             let record = CKRecord(recordType: "UserProfile", recordID: recordID)
@@ -148,6 +152,10 @@ class CloudKitManager: ObservableObject {
     }
 
     func fetchAllWisdomCards() async -> [WisdomCard] {
+        guard cloudKitAvailable, let publicDatabase = publicDatabase else {
+            return []
+        }
+
         let query = CKQuery(recordType: "WisdomCard", predicate: NSPredicate(value: true))
         query.sortDescriptors = [NSSortDescriptor(key: "dayInCycle", ascending: true)]
 
@@ -199,6 +207,10 @@ class CloudKitManager: ObservableObject {
     // MARK: - Lessons
 
     func fetchLessons(forModuleId moduleId: UUID) async -> [Lesson] {
+        guard cloudKitAvailable, let publicDatabase = publicDatabase else {
+            return []
+        }
+
         let predicate = NSPredicate(format: "moduleId == %@", moduleId.uuidString)
         let query = CKQuery(recordType: "Lesson", predicate: predicate)
         query.sortDescriptors = [NSSortDescriptor(key: "orderIndex", ascending: true)]
@@ -320,6 +332,10 @@ class CloudKitManager: ObservableObject {
     // MARK: - Analytics
 
     func trackEvent(name: String, properties: [String: Any]) async {
+        guard cloudKitAvailable, let publicDatabase = publicDatabase else {
+            return
+        }
+
         let record = CKRecord(recordType: "AnalyticsEvent")
         record["eventName"] = name as CKRecordValue
         record["timestamp"] = Date() as CKRecordValue
