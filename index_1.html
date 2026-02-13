@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gio | Developer, Researcher, Builder</title>
+    <meta
+      name="description"
+      content="Portfolio of Gio: AI and game design researcher-builder focused on LLM preference modeling, frontier evaluation, and production systems."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              display: ["Space Grotesk", "sans-serif"],
+              body: ["Manrope", "sans-serif"],
+              mono: ["JetBrains Mono", "monospace"],
+            },
+            colors: {
+              ink: "#09090B",
+              slate: "#111827",
+              fog: "#E5E7EB",
+              electric: "#22D3EE",
+              ocean: "#2563EB",
+              lime: "#84CC16",
+            },
+            keyframes: {
+              float: {
+                "0%, 100%": { transform: "translateY(0px)" },
+                "50%": { transform: "translateY(-12px)" },
+              },
+              fadeInUp: {
+                "0%": { opacity: "0", transform: "translateY(16px)" },
+                "100%": { opacity: "1", transform: "translateY(0)" },
+              },
+            },
+            animation: {
+              float: "float 6s ease-in-out infinite",
+              fadeInUp: "fadeInUp 800ms ease forwards",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "Manrope", sans-serif;
+        background: radial-gradient(
+            1000px 600px at 80% -10%,
+            rgba(34, 211, 238, 0.2),
+            transparent 60%
+          ),
+          radial-gradient(
+            800px 500px at 5% 20%,
+            rgba(37, 99, 235, 0.2),
+            transparent 60%
+          ),
+          #09090b;
+      }
+    </style>
+  </head>
+  <body class="text-fog antialiased">
+    <div id="root"></div>
+
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+      const stats = [
+        { value: "8+", label: "Years Building" },
+        { value: "30+", label: "Shipped Systems" },
+        { value: "3", label: "Languages Spoken" },
+        { value: "24/7", label: "Builder Mentality" },
+      ];
+
+      const projects = [
+        {
+          title: "Sakeenah",
+          impact:
+            "Designed and built a culturally grounded companion app helping users stay consistent with faith routines, community touchpoints, and daily planning.",
+          stack: ["Product Strategy", "Mobile UX", "Full-Stack"],
+        },
+        {
+          title: "LLM Research for Ideation",
+          impact:
+            "Researched preference misalignment in LLM-driven game ideation, testing where models overemphasize novelty versus the practical core loops players actually engage with.",
+          stack: ["LLM Evaluation", "Preference Analysis", "AI Research"],
+        },
+        {
+          title: "Game Development Contributions (100K+ Visits)",
+          impact:
+            "Contributed across a wide variety of games totaling 100K+ visits, handling scripting, systems design, animation, and production tasks end-to-end as needed.",
+          stack: ["Luau", "Animation", "Systems Design", "Game Production"],
+        },
+      ];
+
+      const capabilities = [
+        "Blind pitch test: rate disguised hit games (e.g., simple loop + social trade) without model context",
+        "Reasoning extraction: analyze model explanations for novelty vs social-loop weighting",
+        "Cross-evaluation: model A generates, model B scores commercial viability",
+        "Feature-matching rubric: compare AI ideas vs proven hits on loop simplicity and social twist quality",
+        "Prediction-vs-reality checks: model DAU forecasts against real-world top-game outcomes",
+        "Olympiad-style math trials: proof exploration and failure-mode analysis on frontier reasoning tasks",
+      ];
+
+      function SectionTitle({ eyebrow, title, accent }) {
+        return (
+          <div className="mb-8">
+            <p className="font-mono text-xs uppercase tracking-[0.2em] text-electric">
+              {eyebrow}
+            </p>
+            <h2 className="mt-3 font-display text-3xl font-bold leading-tight text-white md:text-5xl">
+              {title} <span className="text-lime">{accent}</span>
+            </h2>
+          </div>
+        );
+      }
+
+      function App() {
+        return (
+          <div>
+            <header className="sticky top-0 z-40 border-b border-white/10 bg-ink/70 backdrop-blur-lg">
+              <nav className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4">
+                <a href="#top" className="font-display text-2xl font-bold text-white">
+                  G.
+                </a>
+                <div className="hidden gap-6 text-sm text-fog/80 md:flex">
+                  <a href="#about" className="hover:text-electric">
+                    About
+                  </a>
+                  <a href="#projects" className="hover:text-electric">
+                    Projects
+                  </a>
+                  <a href="#research" className="hover:text-electric">
+                    Research
+                  </a>
+                  <a href="#contact" className="hover:text-electric">
+                    Contact
+                  </a>
+                </div>
+              </nav>
+            </header>
+
+            <main id="top" className="mx-auto w-full max-w-6xl px-6 pb-20">
+              <section className="relative py-24 md:py-32">
+                <div className="absolute -left-8 top-10 h-20 w-20 rounded-full bg-electric/30 blur-2xl md:h-28 md:w-28" />
+                <div className="absolute right-6 top-20 h-28 w-28 animate-float rounded-full bg-ocean/30 blur-3xl md:h-36 md:w-36" />
+                <p className="font-mono text-xs uppercase tracking-[0.2em] text-electric">
+                  Developer - Researcher - Systems Builder
+                </p>
+                <h1 className="mt-5 max-w-4xl font-display text-5xl font-bold leading-[0.95] text-white md:text-7xl">
+                  I work at the intersection of AI and game design.
+                </h1>
+                <p className="mt-6 max-w-3xl text-lg text-fog/80 md:text-xl">
+                  Researcher-builder with <strong className="text-white">8+ years of hands-on experience</strong>{" "}
+                  using LLMs for both development and research, from production systems to
+                  frontier model evaluation in game ideation and mathematical reasoning.
+                </p>
+                <div className="mt-10 flex flex-wrap gap-3">
+                  <a
+                    href="#projects"
+                    className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-ink transition hover:bg-fog"
+                  >
+                    View Work
+                  </a>
+                  <a
+                    href="#contact"
+                    className="rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition hover:border-electric hover:text-electric"
+                  >
+                    Contact Me
+                  </a>
+                </div>
+              </section>
+
+              <section id="about" className="py-16">
+                <SectionTitle
+                  eyebrow="01 - About"
+                  title="Built through years of"
+                  accent="serious repetition"
+                />
+                <div className="grid gap-8 md:grid-cols-2">
+                  <div className="rounded-2xl border border-white/10 bg-slate/60 p-7">
+                    <p className="text-fog/80">
+                      I started building young and never stopped. What began as game scripting
+                      evolved into full-stack product development, AI tooling, and
+                      research-backed experimentation.
+                    </p>
+                    <p className="mt-4 text-fog/80">
+                      I am strongest where execution speed and systems thinking matter:
+                      architecting features, validating assumptions fast, and shipping with
+                      quality.
+                    </p>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    {stats.map((item) => (
+                      <div
+                        key={item.label}
+                        className="rounded-2xl border border-white/10 bg-white/5 p-5"
+                      >
+                        <p className="font-display text-3xl font-bold text-white">
+                          {item.value}
+                        </p>
+                        <p className="mt-1 text-xs uppercase tracking-wider text-fog/70">
+                          {item.label}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </section>
+
+              <section id="projects" className="py-16">
+                <SectionTitle
+                  eyebrow="02 - Selected Projects"
+                  title="Development and research"
+                  accent="in practice"
+                />
+                <div className="grid gap-5 md:grid-cols-3">
+                  {projects.map((project) => (
+                    <article
+                      key={project.title}
+                      className="rounded-2xl border border-white/10 bg-slate/60 p-6 transition hover:-translate-y-1 hover:border-electric/60"
+                    >
+                      <h3 className="font-display text-xl font-bold text-white">{project.title}</h3>
+                      <p className="mt-3 text-sm leading-relaxed text-fog/80">{project.impact}</p>
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        {project.stack.map((item) => (
+                          <span
+                            key={item}
+                            className="rounded-full border border-electric/30 bg-electric/10 px-3 py-1 font-mono text-[11px] text-electric"
+                          >
+                            {item}
+                          </span>
+                        ))}
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </section>
+
+              <section id="research" className="py-16">
+                <SectionTitle
+                  eyebrow="03 - Research Angle"
+                  title="Systematic evaluation of"
+                  accent="LLM reasoning behavior"
+                />
+                <div className="rounded-2xl border border-white/10 bg-slate/60 p-7">
+                  <h3 className="font-display text-2xl font-bold text-white">
+                    LLM Preference Misalignment in Game Ideation
+                  </h3>
+                  <p className="mt-3 inline-flex rounded-full border border-lime/40 bg-lime/10 px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-lime">
+                    Research Status: Experiments 1-2 drafted, Experiments 3-4 in progress
+                  </p>
+                  <p className="mt-4 text-fog/80">
+                    I investigate whether LLMs systematically overweight novelty and
+                    mechanical complexity while undervaluing simple core loops with high social
+                    engagement, indicating misalignment between training distributions and
+                    real player behavior. In parallel, I use AI models for algebraic geometry
+                    and competitive-math workflows, testing frontier reasoning on olympiad-style
+                    problems, proof exploration, and failure-mode analysis.
+                  </p>
+                  <div className="mt-5 grid gap-3 md:grid-cols-2">
+                    {capabilities.map((item) => (
+                      <div
+                        key={item}
+                        className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-fog/90"
+                      >
+                        {item}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </section>
+
+              <section id="contact" className="py-20 text-center">
+                <p className="font-mono text-xs uppercase tracking-[0.2em] text-electric">
+                  04 - Contact
+                </p>
+                <h2 className="mt-3 font-display text-4xl font-bold text-white md:text-6xl">
+                  Open to high-rigor AI collaborations.
+                </h2>
+                <p className="mx-auto mt-5 max-w-2xl text-fog/80">
+                  I am especially interested in access to advanced reasoning models such as
+                  Gemini Deep Think for mathematical problem-solving, proof workflows, and
+                  comparative evaluation against other frontier systems.
+                </p>
+                <div className="mt-8 flex flex-wrap justify-center gap-3">
+                  <a
+                    href="mailto:your@email.com"
+                    className="rounded-full bg-lime px-6 py-3 text-sm font-semibold text-ink hover:bg-lime/90"
+                  >
+                    Email Me
+                  </a>
+                  <a
+                    href="#"
+                    className="rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white hover:border-electric hover:text-electric"
+                  >
+                    GitHub
+                  </a>
+                  <a
+                    href="#"
+                    className="rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white hover:border-electric hover:text-electric"
+                  >
+                    LinkedIn
+                  </a>
+                </div>
+              </section>
+            </main>
+
+            <footer className="border-t border-white/10 py-6 text-center text-sm text-fog/60">
+              <p>Copyright 2026 Gio. Built with React and Tailwind.</p>
+            </footer>
+          </div>
+        );
+      }
+
+      ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    </script>
+  </body>
+</html>
